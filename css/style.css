@@ -1,4 +1,3 @@
-
 /* === Basis & Typografie === */
 :root {
   --brand: #4CAF50;
@@ -8,8 +7,14 @@
   --border: #e5e5e5;
   --shadow: 0 2px 8px rgba(0,0,0,0.06);
 
-  /* Partner-Logos: gemeinsame Zielgröße (orientiert an Logo4) */
-  --partner-logo-size: 44px;
+  /* Hauptlogo-Höhe (Desktop) */
+  --brand-logo-height: 88px;
+
+  /* Partner-Logos: Größe relativ zur Hauptlogo-Höhe */
+  /* Standard: 60% der Höhe des Hauptlogos (kann angepasst werden) */
+  --partner-logo-height: calc(var(--brand-logo-height) * 0.6);
+  /* fixe Breite für Box (optional), kann auch proportional gemacht werden */
+  --partner-logo-width: 60px;
 }
 
 html {
@@ -82,37 +87,61 @@ a:hover, .site-nav a:hover {
 /* Logo: Hauptlogo größer, skaliert */
 .brand-link .logo,
 .logo {
-  height: 88px; /* Desktop-Größe, anpassbar */
+  height: var(--brand-logo-height); /* Hauptlogo-Größe kontrolliert durch Variable */
   width: auto;
   display: block;
 }
 
-/* Partner-Logos: rechts, gleich groß (orientiert an Logo4) */
+/* =========================
+   Partner-Logos (vereinfacht)
+   - Partner-Logos bewusst kleiner als Hauptlogo
+   - Anchor füllt die Box, Bild/SVG wird proportional skaliert (contain)
+   - Flexbox-Layout; links ausgerichtet
+   ========================= */
+
 .partner-logos {
-  display: flex;
-  align-items: center;
+  display: inline-block;
+  align-items: ;
   gap: 14px;
   flex-wrap: nowrap;
+  justify-content: flex-start; /* links ausgerichtet */
+  padding: 6px 0;
+  
+
 }
-.partner {
-  display: inline-block;
+
+.partner,
+.partner-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--partner-logo-width);
+  height: var(--partner-logo-height);
   text-decoration: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: transparent;
 }
 
-/* Alle Partner-Logos verwenden dieselbe Höhe -- gleich zu Logo4 */
-.partner-logo {
-  height: var(--partner-logo-size);
-  width: auto;
-  display: block;
+/* Bild- oder SVG-Element innerhalb des Links */
+.partner img,
+.partner .partner-logo,
+.partner svg,
+.partner-item img,
+.partner-item .partner-logo,
+.partner-item svg {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  opacity: 0.95;
-  transition: transform 160ms ease, opacity 160ms ease;
+  display: block;
 }
 
-/* kleine hover-Animation (optional) */
-.partner-logo:hover {
-  transform: translateY(-3px) scale(1.03);
-  opacity: 1;
+/* leichte Hover-Animation */
+.partner:hover,
+.partner-item:hover {
+  transform: translateY(-2px);
+  transition: transform 140ms ease;
+  opacity: 0.98;
 }
 
 /* Gleiches Innenlayout für Header & Footer */
@@ -177,7 +206,7 @@ a:hover, .site-nav a:hover {
 /* Hero-Bereich (optional) */
 .page-hero {
   background: linear-gradient(0deg, #ffffff 0%, #f8fff8 100%);
-  border: 1px solid var(--border);
+  border: 1px solid(var(--border));
   border-radius: 10px;
   box-shadow: var(--shadow);
   padding: 32px 24px;
@@ -274,16 +303,21 @@ a:hover, .site-nav a:hover {
 
 /* --- Responsive Anpassungen für Brand & Header --- */
 @media (max-width: 1100px) {
-  .brand-link .logo, .logo { height: 72px; }
-  /* Partner-Logos proportional verkleinern */
-  :root { --partner-logo-size: 40px; }
-  .partner-logo { height: var(--partner-logo-size); }
+  :root {
+    --brand-logo-height: 72px;
+    --partner-logo-height: calc(var(--brand-logo-height) * 0.6);
+    --partner-logo-width: 120px;
+  }
+  .brand-link .logo, .logo { height: var(--brand-logo-height); }
 }
 
 @media (max-width: 768px) {
-  .brand-link .logo, .logo { height: 64px; }
-  :root { --partner-logo-size: 36px; }
-  .partner-logo { height: var(--partner-logo-size); }
+  :root {
+    --brand-logo-height: 64px;
+    --partner-logo-height: calc(var(--brand-logo-height) * 0.6);
+    --partner-logo-width: 100px;
+  }
+  .brand-link .logo, .logo { height: var(--brand-logo-height); }
   .partner-logos { gap: 10px; }
 }
 
