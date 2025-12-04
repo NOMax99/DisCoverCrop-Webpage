@@ -1,3 +1,4 @@
+
 /* === Basis & Typografie === */
 :root {
   --brand: #4CAF50;
@@ -7,22 +8,24 @@
   --border: #e5e5e5;
   --shadow: 0 2px 8px rgba(0,0,0,0.06);
 
-  /* Hauptlogo-Höhe (Desktop) */
-  --brand-logo-height: 88px;
+/* Hauptlogo-Höhe (automatisch skaliert) */
+  --brand-logo-height: clamp(56px, 8vw, 90px);
 
-  /* Partner-Logos: Größe relativ zur Hauptlogo-Höhe */
-  /* Standard: 60% der Höhe des Hauptlogos (kann angepasst werden) */
-  --partner-logo-height: calc(var(--brand-logo-height) * 0.6);
-  /* fixe Breite für Box (optional), kann auch proportional gemacht werden */
-  --partner-logo-width: 60px;
+  /* Partner-Logos proportional zur Hauptlogo-Höhe */
+  --partner-logo-height: calc(var(--brand-logo-height) * 0.5);
+
+  /* Partner-Logo-Breite flexibel */
+  --partner-logo-width: clamp(50px, 10vw, 90px);
+
+  /* Navigation Box-Look (mobile) */
+  --nav-bg: #ffffff;
+  --nav-border: #e5e7eb;
+
 }
 
-html {
-  box-sizing: border-box;
-}
-*, *::before, *::after {
-  box-sizing: inherit;
-}
+
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
 
 body {
   font-family: Arial, sans-serif;
@@ -33,31 +36,15 @@ body {
   background: #fff;
 }
 
-h1, h2, h3 {
-  line-height: 1.25;
-  margin: 0 0 0.5em;
-}
-h1 {
-  font-size: clamp(1.8rem, 2.5vw, 2.2rem);
-}
-h2 {
-  font-size: clamp(1.4rem, 2vw, 1.6rem);
-}
-h3 {
-  font-size: 1.2rem;
-}
+h1, h2, h3 { line-height: 1.25; margin: 0 0 0.5em; }
+h1 { font-size: clamp(1.8rem, 2.5vw, 2.2rem); }
+h2 { font-size: clamp(1.4rem, 2vw, 1.6rem); }
+h3 { font-size: 1.2rem; }
 
-p {
-  margin: 0 0 1em;
-}
+p { margin: 0 0 1em; }
 
-a {
-  color: var(--brand);
-  text-decoration: none;
-}
-a:hover, .site-nav a:hover {
-  text-decoration: underline;
-}
+a { color: var(--brand); text-decoration: none; }
+a:hover, .site-nav a:hover { text-decoration: underline; }
 
 /* === Layout === */
 .container {
@@ -66,54 +53,64 @@ a:hover, .site-nav a:hover {
   padding: 0 15px;
 }
 
-/* Brand-Top: eigenes Element oberhalb der Navigation */
-.brand-top {
-  background: transparent;
-}
+/* =========================
+   Brand-Top (Hauptlogo links, Partner-Logos rechts)
+   ========================= */
+.brand-top { background: transparent; }
+
 .brand-top .brand-top-inner {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Haupt-Logo links, Partner-Logos rechts */
+  gap: 16px;
   padding-top: 12px;
   padding-bottom: 6px;
 }
 
-/* Link um das Logo */
+/* Hauptlogo */
+.brand-top .brand-link,
 .brand-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
+  flex: 0 0 auto;
 }
-
-/* Logo: Hauptlogo größer, skaliert */
+.brand-top .brand-link .logo,
 .brand-link .logo,
 .logo {
-  height: var(--brand-logo-height); /* Hauptlogo-Größe kontrolliert durch Variable */
+  height: var(--brand-logo-height);
   width: auto;
   display: block;
 }
 
-/* =========================
-   Partner-Logos (vereinfacht)
-   - Partner-Logos bewusst kleiner als Hauptlogo
-   - Anchor füllt die Box, Bild/SVG wird proportional skaliert (contain)
-   - Flexbox-Layout; links ausgerichtet
-   ========================= */
-
+/* ======================================
+   Partner-Logos
+   ====================================== */
+/* Container: Partner-Leiste neben dem Hauptlogo */
+.brand-top .partner-logos,
 .partner-logos {
-  display: inline-block;
-  align-items: ;
-  gap: 14px;
-  flex-wrap: nowrap;
-  justify-content: flex-start; /* links ausgerichtet */
-  padding: 6px 0;
-  
+  display: flex;
+  align-items: flex-end;        /* unten ausrichten */
+  gap: 12px;
+  flex-wrap: nowrap;            /* kein Umbruch */
+  justify-content: flex-start;  /* links ausgerichtet */
+  /* Mehr Platz für die Leiste neben dem Hauptlogo: */
+  max-width: 100%;               /* vorher 65% */
+  padding-left: 8px;
 
+  /* Bei Platzmangel horizontal scrollen statt quetschen */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
+/* Partner-Logo-Box (Link/Container) */
 .partner,
 .partner-item {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;        /* Inhalt in der Box ebenfalls unten */
   justify-content: center;
   width: var(--partner-logo-width);
   height: var(--partner-logo-height);
@@ -121,9 +118,10 @@ a:hover, .site-nav a:hover {
   box-sizing: border-box;
   overflow: hidden;
   background: transparent;
+  transition: transform 140ms ease, opacity 140ms ease;
 }
 
-/* Bild- oder SVG-Element innerhalb des Links */
+/* Bild/SVG im Container – proportional skalieren, nicht verzerren */
 .partner img,
 .partner .partner-logo,
 .partner svg,
@@ -136,15 +134,18 @@ a:hover, .site-nav a:hover {
   display: block;
 }
 
-/* leichte Hover-Animation */
+/* Hover-Feedback */
 .partner:hover,
 .partner-item:hover {
   transform: translateY(-2px);
-  transition: transform 140ms ease;
   opacity: 0.98;
 }
 
-/* Gleiches Innenlayout für Header & Footer */
+
+
+/* =========================
+   Header / Footer - gemeinsames Layout
+   ========================= */
 .site-header {
   background: var(--bg);
   border-bottom: 3px solid var(--brand);
@@ -179,9 +180,7 @@ a:hover, .site-nav a:hover {
   padding: 8px 10px;
   border-radius: 6px;
 }
-.site-nav a.active {
-  color: var(--brand);
-  background: #eaf7ea;
+
 }
 
 /* Mobile Toggle */
@@ -206,7 +205,7 @@ a:hover, .site-nav a:hover {
 /* Hero-Bereich (optional) */
 .page-hero {
   background: linear-gradient(0deg, #ffffff 0%, #f8fff8 100%);
-  border: 1px solid(var(--border));
+  border: 1px solid var(--border);
   border-radius: 10px;
   box-shadow: var(--shadow);
   padding: 32px 24px;
@@ -301,7 +300,16 @@ a:hover, .site-nav a:hover {
   margin-top: 30px;
 }
 
-/* --- Responsive Anpassungen für Brand & Header --- */
+
+
+/* Optional: Defaults, falls --bg/--border nicht gesetzt sind */
+:root {
+  --bg: #ffffff;
+  --border: #e5e7eb;
+}
+
+/* --- Responsive Anpassungen für Brand & Header (deine Original-Styles bleiben) --- */
+
 @media (max-width: 1100px) {
   :root {
     --brand-logo-height: 72px;
@@ -321,43 +329,78 @@ a:hover, .site-nav a:hover {
   .partner-logos { gap: 10px; }
 }
 
-@media (max-width: 480px) {
-  /* Auf sehr kleinen Bildschirmen die Partner-Logos ausblenden (kann geändert werden) */
-  .partner-logos { display: none; }
+/* <=600px (deine Original-Styles bleiben) */
+@media (max-width: 600px) {
+  .brand-top .brand-top-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .brand-top .brand-link .logo { height: 56px; }
+  .brand-top .partner-logos {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+  .brand-top .partner-logos .partner-logo,
+  .partner,
+  .partner-item {
+    height: 36px;
+  }
 }
 
 /* === Responsive allgemein === */
 @media (max-width: 992px) {
   .grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ===== Header / Navigation (bereinigt, ohne Hamburger) ===== */
+
+/* Navigation immer sichtbar */
+.site-nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 12px;
+}
+
+/* Links gestalten */
+.site-nav a {
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.site-nav a:hover,
+.site-nav a:focus {
+  background: rgba(0,0,0,0.04);
+}
+
+/* Mobile: Navigation untereinander statt nebeneinander */
 @media (max-width: 768px) {
   .header-inner {
+    display: flex;
     flex-wrap: wrap;
+    gap: 12px;
   }
-  .nav-toggle {
-    display: block;
-    order: 2;
-  }
+
   .site-nav {
     width: 100%;
-    order: 3;
-  }
-  .site-nav ul {
-    display: none;
-    flex-direction: column;
     background: var(--bg);
-    padding: 10px;
     border: 1px solid var(--border);
     border-radius: 10px;
+    padding: 10px;
   }
-  .site-nav.open ul {
-    display: flex;
-  }
-  .news-item {
+
+  .site-nav ul {
     flex-direction: column;
+    gap: 8px;
   }
-  .news-image {
-    width: 100%;
-  }
+
+  .news-item { flex-direction: column; }
+  .news-image { width: 100%; }
   .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
 }

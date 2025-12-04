@@ -1,21 +1,36 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
+  
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DisCoverCrop — Home</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="favicon.ico">
-</head>
-<body>
+  <meta name="description" content="DisCoverCrop" />
 
+  <link rel="icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#0d9488" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="DisCoverCrop — Home" />
+  <meta property="og:description" content="Entdecke und dokumentiere deine Feldfrüchte mit DisCoverCrop." />
+  <meta property="og:image" content="og-image.png" />
+  <meta property="og:url" content="https://deine-domain.tld/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Direktes, zuverlässiges Einbinden der CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+
+<body>
   <!-- Brand-Top: Haupt-Logo links, Partner-Logos rechts -->
   <div class="brand-top">
     <div class="container brand-top-inner">
       <a class="brand-link" href="index.html" aria-label="DisCoverCrop Main page">
         <img src="images/Logo.svg" alt="DisCoverCrop" class="logo">
       </a>
-
       <div class="partner-logos" aria-label="Partnerlogos">
         <a href="https://www.slu.se/en/" class="partner" aria-label="SLU" target="_blank" rel="noopener noreferrer" title="Swedish University of Agricultural Sciences (SLU)">
           <img src="images/Logo1.svg" alt="SLU" class="partner-logo">
@@ -36,11 +51,10 @@
     </div>
   </div>        
 
+
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html"></a>
-      <button class="nav-toggle" id="navToggle" aria-label="Menü aufklappen">☰</button>
-      <nav class="site-nav" id="siteNav">
+        <nav class="site-nav" id="siteNav">
         <ul>
           <li><a class="active" href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
@@ -54,21 +68,15 @@
   </header>
 
 <main>
-    <section class="hero">
+    <section class="container content">
       <div class="container hero-inner">
         <h1>DisCoverCrop</h1>
         <p class="lead">Ein Projekt zur Erforschung und Förderung nachhaltiger Zwischenfrucht- und Begrünungsstrategien.</p>
         <p><a class="btn" href="about.html">Mehr erfahren</a></p>
-      </div>
-    </section>
-
-    <section class="intro container">
-      <h2>Kurzüberblick</h2>
+     
+        <h2>Kurzüberblick</h2>
       <p>DisCoverCrop untersucht die Auswirkungen verschiedener Zwischenfruchtmischungen und Bewirtschaftungsstrategien auf Bodenfruchtbarkeit, Ertrag und Biodiversität. Auf dieser Website findest du[...]
-    </section>
-
-    <section class="highlights container">
-      <article>
+        <article>
         <h3>Aktuelle Ergebnisse</h3>
         <p>Kurzfassung unserer neuesten Feldversuche und Erkenntnisse.</p>
         <p><a class="link" href="results.html">Zu den Ergebnissen →</a></p>
@@ -84,30 +92,17 @@
         <p><a class="link" href="news.html">Zu den News →</a></p>
       </article>
     </section>
-  </main>
+</main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
-        <strong>DisCoverCrop</strong>
-        <p>© 2025 DisCoverCrop</p>
+        <p>© 2025 The Norwegian Centre for organic agriculture NORSØK. All rights reserved. Last Update: 25.08.2025</p>
       </div>
       <div>
-        <p><a href="about.html">Über das Projekt</a> · <a href="contact.html">Kontakt</a></p>
+        <p><a href="about.html">About the project</a> · <a href="contact.html">Contact</a></p>
       </div>
     </div>
   </footer>
-
-  <script>
-    // Kleines JS zum Öffnen/Schließen der mobilen Navigation
-    (function() {
-      var toggle = document.getElementById('navToggle');
-      var nav = document.getElementById('siteNav');
-      if (!toggle || !nav) return;
-      toggle.addEventListener('click', function() {
-        nav.classList.toggle('open');
-      });
-    })();
-  </script>
 </body>
 </html>
